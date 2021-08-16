@@ -1,1 +1,10 @@
-
+server:
+  servlet:
+    context-path: /api
+springfox:
+  documentation:
+    swagger:
+      v2:
+        use-model-v3: false
+    swagger-ui:
+      base-url: /documentation
