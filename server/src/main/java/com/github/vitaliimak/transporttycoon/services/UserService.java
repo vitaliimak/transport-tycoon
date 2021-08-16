@@ -1,0 +1,28 @@
+package com.github.vitaliimak.transporttycoon.services;
+
+import com.github.vitaliimak.transporttycoon.models.AppUser;
+import com.github.vitaliimak.transporttycoon.repositories.UserRepository;
+import java.util.Optional;
+import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import static java.util.Collections.emptyList;
+
+@Service
+@AllArgsConstructor
+public class UserService implements UserDetailsService {
+    private UserRepository userRepository;
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Optional<AppUser> appUser = userRepository.findByEmail(email);
+        if (appUser.isPresent()) {
+            return new User(appUser.get().getEmail(), appUser.get().getPassword(), emptyList());
+        }
+        throw new UsernameNotFoundException("User with " + email + " does not exist");
+    }
+}
