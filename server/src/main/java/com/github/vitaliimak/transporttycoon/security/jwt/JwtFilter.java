@@ -1,32 +1,33 @@
-package com.github.vitaliimak.transporttycoon.config.jwt;
+package com.github.vitaliimak.transporttycoon.security.jwt;
 
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.StringUtils;
-import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import static org.springframework.util.StringUtils.hasText;
 
-public class JwtFilter extends GenericFilterBean {
+@Component
+@AllArgsConstructor
+public class JwtFilter extends OncePerRequestFilter {
     public static final String AUTHORIZATION_HEADER = "Authorization";
     private JwtProvider jwtProvider;
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException,
-        ServletException {
-        String token = getTokenFromRequest((HttpServletRequest) servletRequest);
-        if (StringUtils.hasText(token) && jwtProvider.validateToken(token)) {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
+        String token = getTokenFromRequest(request);
+        if (hasText(token) && jwtProvider.validateToken(token)) {
             Authentication authentication = jwtProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-        filterChain.doFilter(servletRequest, servletResponse);
-
+        filterChain.doFilter(request, response);
     }
 
     private String getTokenFromRequest(HttpServletRequest servletRequest) {
