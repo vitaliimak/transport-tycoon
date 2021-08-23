@@ -1,3 +1,13 @@
+server:
+  servlet:
+    context-path: /api
+springfox:
+  documentation:
+    swagger:
+      v2:
+        use-model-v3: false
+    swagger-ui:
+      base-url: /documentation
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
