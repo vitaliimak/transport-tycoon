@@ -19,6 +19,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtFilter jwtFilter;
     private UserDetailsService userDetailsService;
+    private final String[] SWAGGER_RESOURCES = {
+        "/swagger-resources/**",
+        "/v3/api-docs/**",
+        "/swagger-ui/**"
+    };
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -26,6 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable()
             .authorizeRequests()
             .antMatchers("/api/auth").permitAll()
+            .antMatchers(SWAGGER_RESOURCES).permitAll()
             .anyRequest().authenticated()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
