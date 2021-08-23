@@ -8,3 +8,9 @@ springfox:
         use-model-v3: false
     swagger-ui:
       base-url: /documentation
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/transport_tycoon?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: app_user
+    password: secret_password
