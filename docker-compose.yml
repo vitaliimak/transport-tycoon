@@ -1,0 +1,12 @@
+version: "3.3"
+
+services:
+  db:
+    image: postgres:13.4
+    container_name: transport-tycoon-db
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: transport_tycoon
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: secret_password
