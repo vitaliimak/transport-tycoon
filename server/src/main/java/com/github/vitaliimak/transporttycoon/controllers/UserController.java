@@ -1,8 +1,13 @@
 package com.github.vitaliimak.transporttycoon.controllers;
 
-import com.github.vitaliimak.transporttycoon.security.jwt.JwtProvider;
 import com.github.vitaliimak.transporttycoon.controllers.auth.AuthUser;
 import com.github.vitaliimak.transporttycoon.controllers.auth.JWTToken;
+import com.github.vitaliimak.transporttycoon.models.UserDto;
+import com.github.vitaliimak.transporttycoon.security.jwt.JwtProvider;
+import com.github.vitaliimak.transporttycoon.services.UserAlreadyExistsException;
+import com.github.vitaliimak.transporttycoon.services.UserService;
+import java.net.URI;
+import java.net.URISyntaxException;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +25,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-public class AuthController {
+public class UserController {
 
     private final JwtProvider tokenProvider;
     private final AuthenticationManager authenticationManager;
+    private final UserService userService;
 
-    @PostMapping
+    @PostMapping("/sign-in")
     public ResponseEntity<JWTToken> authenticate(@Valid @RequestBody AuthUser authUser) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(authUser.getEmail(),
             authUser.getPassword());
@@ -38,5 +44,16 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.createToken(authentication);
         return ResponseEntity.ok(new JWTToken(jwt));
+    }
+
+    @PostMapping("/sign-up")
+    public ResponseEntity<?> createNewUser(@Valid @RequestBody UserDto userDto) throws URISyntaxException {
+        try {
+            userService.createNewUser(userDto);
+        } catch (UserAlreadyExistsException e) {
+            return ResponseEntity.badRequest()
+                .body(e.getMessage());
+        }
+        return ResponseEntity.created(new URI("/api/user/sign-up")).build();
     }
 }
