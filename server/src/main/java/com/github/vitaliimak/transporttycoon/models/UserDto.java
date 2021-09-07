@@ -3,9 +3,11 @@ package com.github.vitaliimak.transporttycoon.models;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class UserDto {
     @NotBlank
     @Email

@@ -6,9 +6,11 @@ import com.github.vitaliimak.transporttycoon.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class UserService {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
@@ -18,12 +20,7 @@ public class UserService {
             throw new UserAlreadyExistsException();
         }
 
-        AppUser user = AppUser.builder()
-            .email(userDto.getEmail())
-            .password(passwordEncoder.encode(userDto.getPassword()))
-            .firstName(userDto.getFirstName())
-            .lastName(userDto.getLastName())
-            .build();
+        AppUser user = AppUser.fromDtoToEntity(userDto, passwordEncoder.encode(userDto.getPassword()));
 
         userRepository.save(user);
     }
