@@ -11,3 +11,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/transport_tycoon?useUnicode=true&characterEncoding=utf8&useSSL=false
     username: app_user
     password: secret_password
+  jpa:
+    hibernate:
+      ddl-auto: update

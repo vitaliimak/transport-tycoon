@@ -8,3 +8,10 @@
 
 ## Run Database
 `docker-compose up -d`
+
+## Connect to Database
+
+```bash
+docker exec -it transport-tycoon-db /bin/bash
+psql -U app_user transport_tycoon -W
+```
