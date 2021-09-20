@@ -1,6 +1,5 @@
 package com.github.vitaliimak.transporttycoon.models;
 
-import com.github.vitaliimak.transporttycoon.annotations.UniqueUser;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +19,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "app_user")
 @AllArgsConstructor
 @NoArgsConstructor
-@UniqueUser
 public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
