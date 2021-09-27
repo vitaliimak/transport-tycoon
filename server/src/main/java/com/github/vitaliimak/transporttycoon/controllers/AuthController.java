@@ -4,7 +4,6 @@ import com.github.vitaliimak.transporttycoon.controllers.auth.AuthUser;
 import com.github.vitaliimak.transporttycoon.controllers.auth.JWTToken;
 import com.github.vitaliimak.transporttycoon.models.UserDto;
 import com.github.vitaliimak.transporttycoon.security.jwt.JwtProvider;
-import com.github.vitaliimak.transporttycoon.services.UserAlreadyExistsException;
 import com.github.vitaliimak.transporttycoon.services.UserService;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -48,12 +47,7 @@ public class AuthController {
 
     @PostMapping("/sign-up")
     public ResponseEntity<?> createNewUser(@Valid @RequestBody UserDto userDto) throws URISyntaxException {
-        try {
-            userService.createNewUser(userDto);
-        } catch (UserAlreadyExistsException e) {
-            return ResponseEntity.badRequest()
-                .body(e.getMessage());
-        }
+        userService.createNewUser(userDto);
         return ResponseEntity.created(new URI("/api/user/sign-up")).build();
     }
 }

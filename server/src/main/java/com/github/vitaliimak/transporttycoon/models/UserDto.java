@@ -1,5 +1,6 @@
 package com.github.vitaliimak.transporttycoon.models;
 
+import com.github.vitaliimak.transporttycoon.annotations.UniqueEmail;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -11,6 +12,7 @@ import lombok.Data;
 public class UserDto {
     @NotBlank
     @Email
+    @UniqueEmail
     private String email;
 
     @NotBlank

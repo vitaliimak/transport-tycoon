@@ -15,11 +15,7 @@ public class UserService {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
 
-    public void createNewUser(UserDto userDto) throws UserAlreadyExistsException {
-        if (userRepository.findByEmail(userDto.getEmail()).isPresent()) {
-            throw new UserAlreadyExistsException();
-        }
-
+    public void createNewUser(UserDto userDto) {
         AppUser user = AppUser.fromDtoToEntity(userDto, passwordEncoder.encode(userDto.getPassword()));
 
         userRepository.save(user);
