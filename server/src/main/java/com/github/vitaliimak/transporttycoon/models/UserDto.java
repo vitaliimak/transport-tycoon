@@ -1,6 +1,7 @@
 package com.github.vitaliimak.transporttycoon.models;
 
 import com.github.vitaliimak.transporttycoon.annotations.UniqueEmail;
+import java.util.List;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -22,4 +23,6 @@ public class UserDto {
     private String firstName;
 
     private String lastName;
+
+    private List<Role> roles;
 }
