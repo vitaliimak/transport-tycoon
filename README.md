@@ -23,3 +23,10 @@ psql -U app_user transport_tycoon -W
 1. Go to `client` folder
 2. Run `npm install` to install dependencies
 3. Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+
+## Setup Google Mail to send emails
+
+1. Go to https://support.google.com/accounts/answer/185833?hl=en and follow instructions
+2. Open IDEA -> Run -> Edit Configurations
+3. Add mail.username=YOUR_USERNAME@gmail.com, mail.password=YOUR_APP_PASSWORD
