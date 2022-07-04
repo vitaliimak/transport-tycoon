@@ -5,8 +5,11 @@ import com.github.vitaliimak.transporttycoon.controllers.auth.JWTToken;
 import com.github.vitaliimak.transporttycoon.models.UserDto;
 import com.github.vitaliimak.transporttycoon.security.jwt.JwtProvider;
 import com.github.vitaliimak.transporttycoon.services.UserService;
+
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +49,7 @@ public class AuthController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<?> createNewUser(@Valid @RequestBody UserDto userDto) throws URISyntaxException {
+    public ResponseEntity<?> createNewUser(@Valid @RequestBody UserDto userDto) throws URISyntaxException, MessagingException, UnsupportedEncodingException {
         userService.createNewUser(userDto);
         return ResponseEntity.created(new URI("/api/user/sign-up")).build();
     }
